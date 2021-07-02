@@ -174,7 +174,7 @@ def PEE3(full_comp = False):
 
 
 def APE1():
-    ranks = [i for i in range(4, 30, 4)]
+    ranks = [i for i in range(4, 40, 4)]
     model = mod.SubgradientDescent(GAMMA, 4.2)
     rank_data = []
 
@@ -183,19 +183,18 @@ def APE1():
         rank_data.append(rank_perf)
     
     barWidth = 1
-    
+    r2 = [x + barWidth for x in ranks]
+
     sns.set(style='darkgrid')
-    plt.bar(ranks, [rank_data[i] - ranks[i] for i in range(len(ranks))], color='#557f2d', width=barWidth, edgecolor='white', label='SGD')
+    plt.bar(ranks, rank_data, color='#557f2d', width=barWidth, edgecolor='white', label='pred. rank')
+    plt.bar(r2, ranks, color='#2d7f5e', width=barWidth, edgecolor='white', label='gen. rank')
     plt.xlabel('rank generated matrix')
-    plt.ylabel('avg. nr. iterations')
+    plt.ylabel('rank')
+    plt.legend()
 
     plt.show()
 
-    # plt.plot(ranks, [rank_data[i] - ranks[i] for i in range(len(ranks))])
-    # plt.xlabel("rank generated matrix")
-    # plt.ylabel("difference rank predicted and generated")
-    # plt.legend()
-    # plt.show()
+
 
 def APE2():
     sparsities = [i/10 for i in range(1, 5)]
@@ -207,13 +206,18 @@ def APE2():
         sparisty_data.append(sparsity)
     
     barWidth = 0.025
+
+    r2 = [x + barWidth for x in sparsities]
+
     sns.set(style='darkgrid')
-    plt.bar(sparsities, [sparisty_data[i] - sparsities[i] for i in range(len(sparsities))], color='#557f2d', width=barWidth, edgecolor='white', label='SGD')
-    plt.xlabel('rank generated matrix')
-    plt.ylabel('avg. nr. iterations')
-    plt.axhline(color='black')
+    plt.bar(sparsities, sparisty_data, color='#557f2d', width=barWidth, edgecolor='white', label='pred. sparsity')
+    plt.bar(r2, sparsities, color='#2d7f5e', width=barWidth, edgecolor='white', label='gen. sparsity')
+    plt.xlabel('sparsity generated matrix')
+    plt.ylabel('sparsity')
+    plt.legend()
 
     plt.show()
+
 
 def APE3():
     ADM = mod.ADM(GAMMA, (DIM * DIM)/315, 600)
@@ -324,14 +328,4 @@ def F2b():
 
 
 # EXAMPLE: 
-PEE1()
-PEE2()
-PEE3()
-APE1()
-APE2()
 APE3()
-APE4()
-F1a()
-F1b()
-F2a()
-F2b()
